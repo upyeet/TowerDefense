@@ -3,31 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <title>Tower Defense</title>
-    <link rel="stylesheet" href="base.css">
+    <link rel="stylesheet" href="base.css"/>
 </head>
 <body>
     <div id="background">
+        <div id="preloadFont" style="font-family: Quinquefive">.</div>
         <canvas id="mainCanvas"></canvas>
     </div>
 
     <!-- Extensions -->
-    <script src="prototype/array.js"></script>
+    <script src="prototype.js"></script>
 
     <!-- Global variables -->
     <script src="global.js"></script>
-
-    <!-- Enums -->
-    <script src="enum/colors.js"></script>
-    <script src="enum/scene.js"></script>
 
     <!-- Objects/Shapes -->
     <script src="obj/shape/rect.js"></script>
     
     <!-- Ojbects/Interface -->
     <script src="obj/inteface/button.js"></script>
+    <script src="obj/inteface/tile.js"></script>
+    <script src="obj/gridMap.js"></script>
+
+    <!-- Logic -->
+    <script src="logic/save.js"></script>
 
     <!-- Scenes -->
+    <script src="scene/shared.js"></script>
     <script src="scene/menu.js"></script>
+    <script src="scene/play.js"></script>
+    <script src="scene/create.js"></script>
 
     <!-- Collision Detection -->
 

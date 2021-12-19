@@ -1,38 +1,51 @@
 class Button extends Rect {
-    constructor(style, posX, posY, text, width = null, height = null) {        
-        super(width ?? BUTTON_WIDTH, height ?? BUTTON_HEIGHT, style);
-        
-        this.posX = posX;
-        this.posY = posY;
+    constructor(posX, posY, rectColour, text, textPositionType, width = null, height = null) {
+        super(width ?? BUTTON_WIDTH, height ?? BUTTON_HEIGHT, posX, posY, rectColour);
 
-        //Calculation for the text to be in middle of the button
-        this.textX = this.posX + (this.width / 2);
-        this.textY = this.posY + (this.height / 2);
-
-        this.text = text;
-        this.ctx.font="30px Georgia";
+        this.text = text ?? this.text;
+        this.fontSize = 30;
+        this.ctx.font="bold " + this.fontSize.toString() + "px Quinquefive";
         this.ctx.textAlign="center";
         this.ctx.textBaseline = "middle";
-        this.fillStyle = style;
-        this.strokeStyle = style;
-
+        this.fillStyle = rectColour;
+        
         this.clickable = false;
 
-        this.click;
+        this.textX = this.posX + (this.width / 2);
+
+        switch(textPositionType) {
+            case (BUTTON_TEXT_POSITION.MIDDLE) :
+                this.textY = this.posY + (this.height / 2);
+                break;
+            case (BUTTON_TEXT_POSITION.ABOVE):
+                this.textY = this.posY - (this.height / 5);
+                break;
+        }
     }
 
     drawFilledButton(textColour) {
-        this.fillRect(this.posX, this.posY);
+        this.fillRect();
         this.ctx.fillStyle = textColour;
         this.ctx.fillText(this.text, this.textX, this.textY);
         this.ctx.fillStyle = this.fillStyle;
     }
 
     drawButton(lineWidth, textColour) {
-        this.rect(this.posX, this.posY, lineWidth);
+        this.rect(lineWidth);
         this.ctx.fillStyle = textColour;
         this.ctx.fillText(this.text, this.textX, this.textY);
         this.ctx.fillStyle = this.fillStyle;
     }
 
+    drawButtonWithBorder(textColour, borderStyle, lineWidth = null, alpha = null) {
+        this.rectWithBorder(borderStyle, this.fillStyle, lineWidth, alpha);
+        this.ctx.fillStyle = textColour;
+        this.ctx.fillText(this.text, this.textX, this.textY);
+        this.ctx.fillStyle = this.fillStyle;
+    }
+};
+
+const BUTTON_TEXT_POSITION = {
+    MIDDLE: 1,
+    ABOVE: 2
 }

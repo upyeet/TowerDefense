@@ -1,0 +1,4 @@
+function initPlayScene() {
+    initGameRect();
+}
+

@@ -3,3 +3,8 @@ html, body, #background {
     height: 100%;
     margin: 0;
 }
+
+@font-face {
+    font-family: 'Quinquefive';
+    src: url("Quinquefive-Ea6d4.ttf");
+}
