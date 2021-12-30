@@ -17,13 +17,21 @@ const COLORS = {
     DARK_GREEN: "#38403a",
     GREEN: "#617851",
     YELLOW_GREEN: "#b3b282",
-    BLUE: "#2A655F"
+    BLUE: "#2A655F",
+    ORANGE: "#D4AA7D",
+    RED: "#941B0C",
+    ICE_BLUE: "#95B8D1",
+    CHINESE_RED: "#A3320B",
+    ISABELLINE: "#F5F1ED",
+    NYANZA: "#E5FFDE",
+    TEA_GREEN: "#C4F1BE"
 };
 
 const SCENE = {
     MENU: 1,
     PLAY: 2,
-    CREATE: 3
+    PLAY_SELECT: 3,
+    CREATE: 4
 };
 
 const USER_PANEL_TYPE = {
@@ -47,3 +55,5 @@ let CURRENT_SCENE = {
 
 let OBJECTS = [];
 let USER_PANEL_ID;
+
+let TILE_WIDTH, TILE_HEIGHT;

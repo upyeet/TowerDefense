@@ -1,7 +1,7 @@
 function clearCanvas() {
     CANVAS.width = CONTAINER.clientWidth;
     CANVAS.height = CONTAINER.clientHeight;
-    new Rect(CONTAINER.clientWidth, CONTAINER.clientHeight, 0, 0, COLORS.DARK_BROWN).fillRect();
+    new Rect(CONTAINER.clientWidth, CONTAINER.clientHeight, 0, 0, COLORS.DARK_BROWN).fillRect(null);
 }
 
 function changeScene() {

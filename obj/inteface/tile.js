@@ -7,7 +7,8 @@ class Tile extends Rect {
     }
     
     drawTile() {
-        this.rectWithBorder(COLORS.YELLOW_GREEN, getStyle(this.type), 2);
+        this.ctx.fillStyle = getStyle(this.type);
+        this.rectWithBorder(COLORS.YELLOW_GREEN, 2);
     }
 }
 
@@ -15,7 +16,10 @@ const TILE_TYPE = {
     DEFAULT: 0,
     GRASS: 1,
     ROAD: 2,
-    WATER: 3
+    WATER: 3,
+    ATTACK: 4,
+    BUFF: 5,
+    SLOW: 6
 }
 
 let TILE_ID_GENERATOR = {
@@ -29,7 +33,7 @@ let TILE_ID_GENERATOR = {
     }
 };
 
-let getStyle = function(type) {
+function getStyle(type) {
     let style;
     switch(type) {
         case (TILE_TYPE.GRASS):
@@ -40,6 +44,15 @@ let getStyle = function(type) {
             break;
         case (TILE_TYPE.WATER):
             style = COLORS.BLUE;
+            break;
+        case (TILE_TYPE.ATTACK):
+            style = COLORS.RED;
+            break;
+        case (TILE_TYPE.BUFF):
+            style = COLORS.ORANGE;
+            break;
+        case (TILE_TYPE.SLOW):
+            style = COLORS.ICE_BLUE;
             break;
         default:
             style = COLORS.DARK_GREEN;

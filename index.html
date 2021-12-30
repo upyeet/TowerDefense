@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <title>Tower Defense</title>
     <link rel="stylesheet" href="base.css"/>
+    <script src="node_modules/file-saver/src/FileSaver.js"></script>
 </head>
 <body>
+    <input style="display: none;" type="file" id="uploadFile" onchange="loadMap(this.files[0])"/>
     <div id="background">
         <div id="preloadFont" style="font-family: Quinquefive">.</div>
         <canvas id="mainCanvas"></canvas>
@@ -19,14 +21,19 @@
 
     <!-- Objects/Shapes -->
     <script src="obj/shape/rect.js"></script>
+    <script src="obj/shape/circle.js"></script>
     
     <!-- Ojbects/Interface -->
     <script src="obj/inteface/button.js"></script>
     <script src="obj/inteface/tile.js"></script>
-    <script src="obj/gridMap.js"></script>
+    <script src="obj/inteface/textBlock.js"></script>
+
+    <!-- Objects/unit -->
+    <script src="obj/unit/monster.js"></script>
+    <script src="obj/unit/tower.js"></script>
 
     <!-- Logic -->
-    <script src="logic/save.js"></script>
+    <script src="logic/file.js"></script>
 
     <!-- Scenes -->
     <script src="scene/shared.js"></script>
