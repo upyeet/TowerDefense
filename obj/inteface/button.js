@@ -24,7 +24,7 @@ class Button extends Rect {
     }
 
     drawFilledButton(textColour) {
-        this.fillRect();
+        this.fillRect(null);
         this.ctx.fillStyle = textColour;
         this.ctx.fillText(this.text, this.textX, this.textY);
         this.ctx.fillStyle = this.fillStyle;
@@ -38,7 +38,7 @@ class Button extends Rect {
     }
 
     drawButtonWithBorder(textColour, borderStyle, lineWidth = null, alpha = null) {
-        this.rectWithBorder(borderStyle, this.fillStyle, lineWidth, alpha);
+        this.rectWithBorder(borderStyle, lineWidth, alpha);
         this.ctx.fillStyle = textColour;
         this.ctx.fillText(this.text, this.textX, this.textY);
         this.ctx.fillStyle = this.fillStyle;

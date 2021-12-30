@@ -1,4 +1,5 @@
 class Rect {
+    //Draws from left top corner
     constructor(width, height, posX, posY, style = null, ctx = null) {
         this.width = width;
         this.height = height;
@@ -10,9 +11,8 @@ class Rect {
         this.hasBorder = false;
     }
 
-    fillRect(style, alpha) {
+    fillRect(alpha) {
         this.ctx.globalAlpha = alpha ?? this.ctx.globalAlpha;
-        this.ctx.fillStyle = style ?? this.ctx.fillStyle;
         this.ctx.fillRect(this.posX, this.posY, this.width, this.height);
     }
 
@@ -26,9 +26,8 @@ class Rect {
         this.hasBorder = true;
     }
 
-    rectWithBorder(borderStyle, fillStyle, lineWidth, alpha) {
-        this.ctx.fillStyle = fillStyle ?? this.ctx.fillStyle;
-        this.fillRect(fillStyle, alpha);
+    rectWithBorder(borderStyle, lineWidth, alpha) {
+        this.fillRect(alpha);
         this.ctx.strokeStyle = borderStyle;
         this.rect(borderStyle, lineWidth, alpha);
     }

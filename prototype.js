@@ -7,3 +7,30 @@ Array.prototype.removeByProperty = function(property) {
         this.push(ele);
     });
 }
+
+Array.prototype.pushTile = function(tile) {
+    let tileObj = {
+        id: tile.id,
+        type: tile.type,
+        posX: tile.posX,
+        posY: tile.posY
+    }
+    this.push(tileObj);
+}
+
+Array.prototype.changeTypeAtId = function(type, id) {
+    this.forEach((ele) => {
+        if(ele.id !== undefined) {
+            if(ele.id === id) {
+                let index = this.indexOf(ele);
+                if(index > -1) {
+                    this[index].type = type;
+                }
+                else {
+                    alert("Incorrect id");
+                }
+                return;
+            }
+        }
+    });
+}
