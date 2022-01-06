@@ -8,6 +8,16 @@ Array.prototype.removeByProperty = function(property) {
     });
 }
 
+Array.prototype.deleteByPropertyValue = function (property, value) {
+    let temp = this.filter((ele) => {
+        return ele[property] !== value;
+    });
+    this.splice(0, this.length);
+    temp.forEach((ele) => {
+        this.push(ele);
+    })
+}
+
 Array.prototype.pushTile = function(tile) {
     let tileObj = {
         id: tile.id,
@@ -16,6 +26,14 @@ Array.prototype.pushTile = function(tile) {
         posY: tile.posY
     }
     this.push(tileObj);
+}
+
+Array.prototype.changePropertyValueAtId = function(property, value, id) {
+    this.forEach((ele) => {
+        if(ele.id === id) {
+            this[property] = value;
+        }
+    });
 }
 
 Array.prototype.changeTypeAtId = function(type, id) {

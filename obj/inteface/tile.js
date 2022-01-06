@@ -1,9 +1,9 @@
 class Tile extends Rect {
-    constructor(width, height, posX, posY, type) {
+    constructor(width, height, posX, posY, type, id = null) {
         super(width, height, posX, posY, getStyle(type));
         this.type = type ?? TILE_TYPE.DEFAULT;
         this.clickable = false;
-        this.id = TILE_ID_GENERATOR.ID;
+        this.id = id ?? TILE_ID_GENERATOR.ID;
     }
     
     drawTile() {
