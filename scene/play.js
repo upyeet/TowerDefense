@@ -23,21 +23,18 @@ function initPlayButtons() {
     posYInUserPanel = attackBtn.posY + btnWidth + margin;
     let buffBtn = new Button(posXInUserPanel, posYInUserPanel, COLORS.ORANGE, "Buff", BUTTON_TEXT_POSITION.ABOVE, btnWidth, btnHeight);
     buffBtn.drawButtonWithBorder(COLORS.DARK_GREEN, COLORS.DARK_GREEN, LINE_WIDTH);
-    posYInUserPanel = buffBtn.posY + btnWidth + margin;
-    let slowBtn = new Button(posXInUserPanel, posYInUserPanel, COLORS.ICE_BLUE, "Slow", BUTTON_TEXT_POSITION.ABOVE, btnWidth, btnHeight);
-    slowBtn.drawButtonWithBorder(COLORS.DARK_GREEN, COLORS.DARK_GREEN, LINE_WIDTH);
     
     attackBtn.type = TILE_TYPE.ATTACK;
     buffBtn.type = TILE_TYPE.BUFF;
-    slowBtn.type = TILE_TYPE.SLOW;
+
+    attackBtn.cost = 20;
+    buffBtn.cost = 30;
 
     attackBtn.click = userPanelBtnClick;
     buffBtn.click = userPanelBtnClick;
-    slowBtn.click = userPanelBtnClick;
 
     OBJECTS.push(attackBtn);
     OBJECTS.push(buffBtn);
-    OBJECTS.push(slowBtn);
 }
 
 function findStartingPointForLevel() {
@@ -169,28 +166,27 @@ function play() {
     let goldTextBlock = new TextBlock(COLORS.YELLOW_GREEN);
     goldTextBlock.draw(leftPosX, leftPosY, "Gold:");
     let goldPosX = leftPosX + getTextWidth("Gold:");
-    let gold = createCounter(countWidth, countHeight, goldPosX, leftPosY);
+    GOLD = createCounter(countWidth, countHeight, goldPosX, leftPosY);
 
     let healthTextBlock = new TextBlock(COLORS.YELLOW_GREEN);
     healthTextBlock.draw(middlePosX, middlePosY, "Health:");
     let healthPosX = middlePosX + getTextWidth("Health:");
     let health = createCounter(countWidth, countHeight, healthPosX, middlePosY);
     
-    gold.Count = 100;
+    GOLD.Count = 100;
     health.Count = 100;
 
     let enemyCount = {
-        light: 10,
-        medium: 4,
-        heavy: 2
+        light: 2,
+        medium: 1,
+        heavy: 0
     };
 
-    let time = 0;
-    let path = getPath();
-
-    let lightEnemies = [];
-    let mediumEnemies = [];
-    let heavyEnemies = [];
+    let addedEnemyCount = {
+        light: 4,
+        medium: 2,
+        heavy: 1
+    }
 
     let currentEnemyCount = {
         light: 0,
@@ -198,47 +194,71 @@ function play() {
         heavy: 0
     };
 
+    let time = 0;
+    let path = getPath();
+
+    let currentLevel = 0;
+    let levelCount = 2;
+
     let playLoop = setInterval(function(){
-        if(time % 2000 === 0) {
-            if(currentEnemyCount.light < enemyCount.light) {
+        if (time % 1000 === 0) {
+            if (currentEnemyCount.light < enemyCount.light) {
                 currentEnemyCount.light++;
-                lightEnemies.push(new Monster(MONSTER_TYPE.LIGHT, path));
+                MONSTERS.push(new Monster(MONSTER_TYPE.LIGHT, path));
             }
-            if(currentEnemyCount.light === enemyCount.light && currentEnemyCount.medium < enemyCount.medium) {
+            else if (currentEnemyCount.medium < enemyCount.medium && currentEnemyCount.light === enemyCount.light) {
                 currentEnemyCount.medium++;
-                lightEnemies.push(new Monster(MONSTER_TYPE.LIGHT, path));
+                MONSTERS.push(new Monster(MONSTER_TYPE.MEDIUM, path));
             }
-            if(currentEnemyCount.medium === enemyCount.medium && currentEnemyCount.heavy < enemyCount.heavy) {
+            else if (currentEnemyCount.heavy < enemyCount.heavy && currentEnemyCount.medium === enemyCount.medium) {
                 currentEnemyCount.heavy++;
+                MONSTERS.push(new Monster(MONSTER_TYPE.HEAVY, path));
             }
         }
 
+        if (time % 500 === 0) {
+            MONSTERS.forEach((monster) => {
+                monster.draw(health);
+            });
 
-        if(time % 750 === 0) {
-            if(currentEnemyCount.light > 0) {
-                lightEnemies.forEach((monster) => {
-                    monster.draw(health);
-                });
-            }
+            TOWERS.forEach((tower) => {
+                tower.action();
+            });
         }
         
-        if(health.Count === 0) {
+        if(MONSTERS.length === 0) {
+            if (currentEnemyCount.light === enemyCount.light &&
+                currentEnemyCount.medium === enemyCount.medium &&
+                currentEnemyCount.heavy === enemyCount.heavy) {
+                currentLevel++;
+                if(currentLevel === levelCount) {
+                    clearInterval(playLoop);
+                    alert("Congratulations!");
+                    location.reload();
+                    return;
+                }
+                
+                alert("Level: " + currentLevel);
+                enemyCount.light += addedEnemyCount.light;
+                enemyCount.medium += addedEnemyCount.medium;
+                enemyCount.heavy += addedEnemyCount.heavy;
+                currentEnemyCount.light = 0;
+                currentEnemyCount.medium = 0;
+                currentEnemyCount.heavy = 0;
+            }
+        }
+
+        if(health.Count < 0) {
             clearInterval(playLoop);
             alert("Game over");
             CURRENT_SCENE.ID = SCENE.MENU;
+            location.reload();
+            return;
         }
 
         time += 10;
     }, 10); //100fps
     
-}
-
-function initMonsters(type) {
-    switch(type) {
-        case (MONSTER_TYPE.LIGHT):
-
-            break;
-    }
 }
 
 function createCounter(width, height, posX, posY) {

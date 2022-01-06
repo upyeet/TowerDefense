@@ -33,7 +33,7 @@ function initUIButtons() {
         TILE_ID_GENERATOR.ID = 0;
         //ONLY Tiles have id
         OBJECTS.removeByProperty("id");
-        CURRENT_SCENE.ID = PREVIOUS_SCENE_ID;
+        location.reload();
     }
 
     OBJECTS.push(backBtn);
@@ -70,6 +70,7 @@ function initUIButtons() {
                 //map validation here needed
                 saveMap(GRID_MAP);
                 alert("Map saved");
+                location.reload();
             }
             clearBtn.click = function () {
                 GRID_MAP = [];
@@ -141,9 +142,22 @@ function tileClick() {
         switch(USER_PANEL_ID) {
             case (USER_PANEL_TYPE.PLAY) :
                 if(validatePositionToPlace(this.type)) {
-                    this.type = CURRENT_SELECTED_ITEM.type;
-                    GRID_MAP.changeTypeAtId(this.type, this.id);
-                    this.drawTile();
+                    if(GOLD) {
+                        if(GOLD.Count - CURRENT_SELECTED_ITEM.cost >= 0) {
+                            let map = GRID_MAP.map((ele) => {
+                                return ele.id;
+                            });
+                            let index = map.indexOf(this.id);
+                            let tower = new Tower(CURRENT_SELECTED_ITEM.type, this.id, index, this.posX, this.posY)
+                            debugger;
+                            TOWERS.push(tower);
+                            tower.buff();
+                            GOLD.Count -= CURRENT_SELECTED_ITEM.cost;
+                            this.type = CURRENT_SELECTED_ITEM.type;
+                            GRID_MAP.changeTypeAtId(this.type, this.id);
+                            this.drawTile();
+                        }
+                    }
                 }
                 else {
                     alert("Can't place tower on road or water");

@@ -1,28 +1,48 @@
 class Monster {
+
+    get health() {
+        return this._health;
+    }
+
+    set health(value) {
+        if(value > 0) {
+            this._health = value;
+        }
+        else {
+            this.alive = false;
+            GOLD.Count += this.reward;
+            GRID_MAP[this.path[this.pathIndex - 1]].drawTile();
+            removeNotAliveMonsters();
+        }
+    }
+
     constructor(type, path) {
-        let health = 0;
-        let speed = 1;
+        let monsterHealth = 0;
+        let reward = 0;
         let colour;
         switch(type) {
             case (MONSTER_TYPE.LIGHT):
                 colour = COLORS.TEA_GREEN;
-                health = 2;
+                monsterHealth = 2;
+                reward = 5;
                 break;
             case (MONSTER_TYPE.MEDIUM):
                 colour = COLORS.NYANZA;
-                health = 4;
+                monsterHealth = 4;
+                reward = 10
                 break;
             case (MONSTER_TYPE.HEAVY):
                 colour = COLORS.ISABELLINE;
-                health = 8;
+                monsterHealth = 8;
+                reward = 20;
                 break;
             case (MONSTER_TYPE.BOSS):
                 colour = COLORS.CHINESE_RED;
-                health = 16;
+                monsterHealth = 16;
+                reward = 40;
                 break;
         }
-        this.health = health;
-        this.speed = speed;
+        
 
         let diameter = Math.sqrt(TILE_WIDTH * TILE_WIDTH + TILE_HEIGHT * TILE_HEIGHT) * 0.6;
         this.radius = diameter / 2;
@@ -33,35 +53,51 @@ class Monster {
 
         this.pathIndex = 0;
 
-        this.alive = true;
+        this.alive = false;
+
+        this.id = MONSTER_ID_GENERATOR;
+
+        this.rectWidth = this.radius * 2;
+        this.rectHeight = this.rectWidth;
+        this._health = monsterHealth;
+        this.reward = reward;
     }
 
     draw(health) {
-        if(this.alive) {
-            if(this.path.length === this.pathIndex) {
-                GRID_MAP[this.path[this.pathIndex - 1]].drawTile();
-                this.alive = false;
-                health.Count -= this.health;
+        if(this.path.length === this.pathIndex) {
+            this.alive = false;
+            GRID_MAP[this.path[this.pathIndex - 1]].drawTile();
+            health.Count -= this.health;
+            removeNotAliveMonsters();
+        }
+        else {
+            this.alive = true;
+            if(this.pathIndex === 0) {
+                this.drawMonster();
+                this.pathIndex++;
             }
             else {
-                if(this.pathIndex === 0) {
-                    this.drawMonster()
-                    this.pathIndex++;
-                }
-                else {
-                    GRID_MAP[this.path[this.pathIndex - 1]].drawTile();
-                    this.drawMonster();
-                    this.pathIndex++;
-                }
+                GRID_MAP[this.path[this.pathIndex - 1]].drawTile();
+                this.drawMonster();
+                this.pathIndex++;
             }
         }
+        
     }
 
     drawMonster() {
         let posX = GRID_MAP[this.path[this.pathIndex]].posX + TILE_WIDTH / 2;
         let posY = GRID_MAP[this.path[this.pathIndex]].posY + TILE_HEIGHT / 2;
+        this.posX = posX;
+        this.posY = posY;
         new Circle(this.radius, posX, posY, this.colour).drawFilledWithBorder(COLORS.DARK_BROWN);
     }
+}
+
+function removeNotAliveMonsters() {
+    MONSTERS = MONSTERS.filter((enemy) => {
+        return enemy.alive === true;
+    });
 }
 
 const MONSTER_TYPE = {
@@ -70,3 +106,14 @@ const MONSTER_TYPE = {
     HEAVY: 3,
     BOSS: 4
 }
+
+let MONSTER_ID_GENERATOR = {
+    id: 0,
+    get ID() {
+        this.id++;
+        return this.id;
+    },
+    set ID(value) {
+        this.id = value;
+    }
+};

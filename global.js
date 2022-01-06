@@ -57,3 +57,8 @@ let OBJECTS = [];
 let USER_PANEL_ID;
 
 let TILE_WIDTH, TILE_HEIGHT;
+
+let GOLD;
+
+let MONSTERS = [];
+let TOWERS = [];
