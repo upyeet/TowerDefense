@@ -27,8 +27,8 @@ function initPlayButtons() {
     attackBtn.type = TILE_TYPE.ATTACK;
     buffBtn.type = TILE_TYPE.BUFF;
 
-    attackBtn.cost = 20;
-    buffBtn.cost = 30;
+    attackBtn.cost = 100;
+    buffBtn.cost = 200;
 
     attackBtn.click = userPanelBtnClick;
     buffBtn.click = userPanelBtnClick;
@@ -177,8 +177,8 @@ function play() {
     health.Count = 100;
 
     let enemyCount = {
-        light: 2,
-        medium: 1,
+        light: 1,
+        medium: 0,
         heavy: 0
     };
 
@@ -217,12 +217,12 @@ function play() {
         }
 
         if (time % 500 === 0) {
-            MONSTERS.forEach((monster) => {
-                monster.draw(health);
-            });
-
             TOWERS.forEach((tower) => {
                 tower.action();
+            });
+
+            MONSTERS.forEach((monster) => {
+                monster.draw(health);
             });
         }
         
