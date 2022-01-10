@@ -3,14 +3,11 @@ class Tower {
         let range = 1;
         switch(type) {
             case (TILE_TYPE.ATTACK):
-                this.damage = 2;
-                this.attackSpeed = 1
+                this.damage = 1;
                 this.style = COLORS.RED;
-                this.buffed = false;
                 break;
             case (TILE_TYPE.BUFF):
-                this.addedDamage = 3;
-                range = 1;
+                this.addedDamage = 4;
                 this.style = COLORS.ORANGE;              
                 break;
         }
@@ -24,6 +21,7 @@ class Tower {
         this.rangeHeight = (this.range * 2 + 1) * TILE_HEIGHT;
         this.rangePosX = this.posX - TILE_WIDTH;
         this.rangePosY = this.posY - TILE_HEIGHT;
+        this.animation = true;
     }
 
     action() {

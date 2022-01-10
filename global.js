@@ -20,6 +20,7 @@ const COLORS = {
     BLUE: "#2A655F",
     ORANGE: "#D4AA7D",
     RED: "#941B0C",
+    LIGHT_RED: "#d62913",
     ICE_BLUE: "#95B8D1",
     CHINESE_RED: "#A3320B",
     ISABELLINE: "#F5F1ED",

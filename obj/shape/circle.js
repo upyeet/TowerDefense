@@ -10,14 +10,18 @@ class Circle {
         this.ctx.lineWidth = 10;
     }
 
-    drawFilled() {
+    drawFilled(startAngle = 0, endAngle = 2 * Math.PI) {
         this.ctx.beginPath();
-        this.ctx.arc(this.posX, this.posY, this.radius, 0, 2 * Math.PI);
+        if(endAngle - startAngle < 2 * Math.PI) {
+            this.ctx.moveTo(this.posX, this.posY);
+        }
+        this.ctx.arc(this.posX, this.posY, this.radius, startAngle, endAngle);
+        this.ctx.closePath();
         this.ctx.fill();
     }
 
-    drawFilledWithBorder(borderColour) {
-        this.drawFilled();
+    drawFilledWithBorder(borderColour, startAngle = 0, endAngle = 2 * Math.PI) {
+        this.drawFilled(startAngle, endAngle);
         this.ctx.strokeStyle = borderColour;
         this.ctx.stroke();
     }

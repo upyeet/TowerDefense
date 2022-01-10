@@ -20,26 +20,30 @@ class Monster {
         let monsterHealth = 0;
         let reward = 0;
         let colour;
+        let incorrectMonster = false;
         switch(type) {
             case (MONSTER_TYPE.LIGHT):
                 colour = COLORS.TEA_GREEN;
-                monsterHealth = 2;
+                monsterHealth = 4;
                 reward = 5;
                 break;
             case (MONSTER_TYPE.MEDIUM):
                 colour = COLORS.NYANZA;
-                monsterHealth = 4;
+                monsterHealth = 8;
                 reward = 10
                 break;
             case (MONSTER_TYPE.HEAVY):
                 colour = COLORS.ISABELLINE;
-                monsterHealth = 8;
+                monsterHealth = 16;
                 reward = 20;
                 break;
             case (MONSTER_TYPE.BOSS):
                 colour = COLORS.CHINESE_RED;
-                monsterHealth = 16;
+                monsterHealth = 32;
                 reward = 40;
+                break;
+            default:
+                incorrectMonster = true;
                 break;
         }
         
@@ -59,6 +63,7 @@ class Monster {
 
         this.rectWidth = this.radius * 2;
         this.rectHeight = this.rectWidth;
+        this.maxHealth = monsterHealth;
         this._health = monsterHealth;
         this.reward = reward;
     }
@@ -90,7 +95,9 @@ class Monster {
         let posY = GRID_MAP[this.path[this.pathIndex]].posY + TILE_HEIGHT / 2;
         this.posX = posX;
         this.posY = posY;
-        new Circle(this.radius, posX, posY, this.colour).drawFilledWithBorder(COLORS.DARK_BROWN);
+        let startAngle = Math.PI * 2 * (this.maxHealth - this._health) / this.maxHealth;
+        new Circle(this.radius, posX, posY, "#777766").drawFilledWithBorder(COLORS.DARK_BROWN, 0, 2 * Math.PI);
+        new Circle(this.radius, posX, posY, this.colour).drawFilledWithBorder(COLORS.DARK_BROWN, startAngle - Math.PI / 2, 3 * Math.PI / 2);
     }
 }
 

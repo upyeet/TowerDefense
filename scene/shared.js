@@ -148,8 +148,7 @@ function tileClick() {
                                 return ele.id;
                             });
                             let index = map.indexOf(this.id);
-                            let tower = new Tower(CURRENT_SELECTED_ITEM.type, this.id, index, this.posX, this.posY)
-                            debugger;
+                            let tower = new Tower(CURRENT_SELECTED_ITEM.type, this.id, index, this.posX, this.posY);
                             TOWERS.push(tower);
                             tower.buff();
                             GOLD.Count -= CURRENT_SELECTED_ITEM.cost;
